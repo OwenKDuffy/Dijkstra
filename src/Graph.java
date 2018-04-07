@@ -2,11 +2,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Graph {
-	private class Node
+	class Node
 	{
 		ArrayList<Edge> connectedEdges;
-		public Node()
+		int myIndex;
+		public Node(int index)
 		{
+			myIndex = index;
 			connectedEdges = new ArrayList<Edge>();
 		}
 		public void addEdge(Node destination, double distance)
@@ -15,7 +17,7 @@ public class Graph {
 		}
 	}
 	
-	private class Edge
+	class Edge
 	{
 		double length;
 		Node destinationEdge;
@@ -32,9 +34,9 @@ public class Graph {
 	{
 		this.V = v;
 		Nodes = new Node[v];
-		for (Node n : Nodes) 
+		for (int i = 0; i < v; i++) 
 		{
-			n = new Node();
+			Nodes[i] = new Node(i);
 		}
 	}
 
@@ -49,6 +51,14 @@ public class Graph {
 		Nodes[index2].addEdge(Nodes[1], distance);
 
 	}
+
+
+	public ArrayList<Edge> getNeighboursOf(int u) {
+		return Nodes[u].connectedEdges;
+	}
+
+
+	
 	
 }
 

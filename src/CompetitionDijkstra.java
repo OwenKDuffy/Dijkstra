@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
@@ -29,7 +30,18 @@ public class CompetitionDijkstra {
 
 	Graph intersections;
 	int speedA, speedB, speedC;
+	DijkstraTable[] dta;
+	private class DijkstraTable
+	{
+		double[] dist;
+		double[] prev;
+		DijkstraTable(int size)
+		{
+			dist = new double[size];
+			prev = new double[size];
 
+		}
+	}
 
 	CompetitionDijkstra (String filename, int sA, int sB, int sC) throws FileNotFoundException
 	{
@@ -45,7 +57,8 @@ public class CompetitionDijkstra {
 		String connections=file.readAll();
 		String[] connectionsArray=connections.split("\n");
 
-		intersections = new Graph(Integer.parseInt(connectionsArray[0]));
+		int v = Integer.parseInt(connectionsArray[0]);
+		intersections = new Graph(v);
 
 		for (int i=2; i < connectionsArray.length; i++)
 		{
@@ -54,7 +67,63 @@ public class CompetitionDijkstra {
 
 			intersections.addEdgeOneWay(Integer.parseInt(properties[0]), Integer.parseInt(properties[1]), Double.parseDouble(properties[2]));
 		}
+		dta = new DijkstraTable[v];
+		for(DijkstraTable dt : dta)
+		{
+			dt = new DijkstraTable(v);
+		}
+		for (int i = 0; i < intersections.V; i++) 
+		{
+			int source = i;
+			ArrayList<Integer> queue = new ArrayList<Integer>();
+			//			PriorityQueue<Integer> queue = new PriorityQueue<>(v, (a, b) -> a < b);
+			double[] dist = new double[v];
+			double[] prev = new double[v];
+			for(int x = 0; x < v; x++)
+			{
+				dist[x] = Double.MAX_VALUE;
+				prev[x] = -1;
+				queue.add(x);
+			}
 
+			dist[source] = 0;
+
+			while(!queue.isEmpty())
+			{
+				int u = minOf(queue, dist);
+				queue.remove(u);
+
+				ArrayList<Graph.Edge> neighbours = intersections.getNeighboursOf(u);
+
+				for(Graph.Edge e: neighbours)
+				{
+					double alt = dist[u] + e.length;
+					if (alt < dist[e.destinationEdge.myIndex])
+					{
+						dist[e.destinationEdge.myIndex] = alt;
+						prev[e.destinationEdge.myIndex] = u;
+					}
+				}
+			}
+			dta[i].dist = dist;
+			dta[i].prev = prev;
+		}
+	}
+
+
+	private int minOf(ArrayList<Integer> queue, double[] dist) {
+		double minDist = Double.MAX_VALUE;
+		int nearest = -1;
+		for(int i : queue)
+		{
+			double distanceTo = dist[i];
+			if(distanceTo < minDist)
+			{
+				nearest = i;
+				minDist = distanceTo;
+			}
+		}
+		return nearest;
 	}
 
 
@@ -63,24 +132,19 @@ public class CompetitionDijkstra {
 	 */
 	public int timeRequiredforCompetition()
 	{
-		
-		double shortestDistance = Double.MAX_VALUE;
-		for(int i = 0; i < intersections.V; i++)
+		double longestPath = Double.MIN_VALUE;
+		for(DijkstraTable dt : dta)
 		{
-			double dist = dijkstra(intersections, i);
-			if (dist < shortestDistance)
+			for(double dst : dt.dist)
 			{
-				shortestDistance = dist;
+				if(dst > longestPath)
+					longestPath = dst;
 			}
-			
 		}
-		return (int) Math.ceil(shortestDistance);
-	}
+		return (int) (Math.ceil(longestPath*1000)/(Math.min(speedA, (Math.min(speedB, speedC)))));
 
 
-	private double dijkstra(Graph intersections2, int i) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
+
 
 }
