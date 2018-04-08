@@ -68,9 +68,9 @@ public class CompetitionDijkstra {
 			intersections.addEdgeOneWay(Integer.parseInt(properties[0]), Integer.parseInt(properties[1]), Double.parseDouble(properties[2]));
 		}
 		dta = new DijkstraTable[v];
-		for(DijkstraTable dt : dta)
+		for(int i = 0; i < v; i++)
 		{
-			dt = new DijkstraTable(v);
+			dta[i] = new DijkstraTable(v);
 		}
 		for (int i = 0; i < intersections.V; i++) 
 		{
@@ -91,7 +91,7 @@ public class CompetitionDijkstra {
 			while(!queue.isEmpty())
 			{
 				int u = minOf(queue, dist);
-				queue.remove(u);
+				queue.remove(queue.indexOf(u));
 
 				ArrayList<Graph.Edge> neighbours = intersections.getNeighboursOf(u);
 
