@@ -43,7 +43,7 @@ public class CompetitionDijkstra {
 		}
 	}
 
-	CompetitionDijkstra (String filename, int sA, int sB, int sC) throws FileNotFoundException
+	CompetitionDijkstra (String filename, int sA, int sB, int sC) 
 	{
 		this.speedA = sA;
 		this.speedB = sB;
@@ -51,7 +51,8 @@ public class CompetitionDijkstra {
 		File testFile= new File(filename);
 		if (!testFile.exists())
 		{
-			throw new FileNotFoundException("Could not find file: " + filename);
+			//throw new FileNotFoundException("Could not find file: " + filename);
+			return;
 		}
 		In file= new In(filename);
 		String connections=file.readAll();
