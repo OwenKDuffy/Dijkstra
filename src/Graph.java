@@ -45,12 +45,6 @@ public class Graph {
 	{
 		Nodes[index1].addEdge(Nodes[index2], distance);
 	}
-	public void addEdgeTwoWay(int index1, int index2, double distance) 
-	{
-		Nodes[index1].addEdge(Nodes[2], distance);
-		Nodes[index2].addEdge(Nodes[1], distance);
-
-	}
 
 
 	public ArrayList<Edge> getNeighboursOf(int u) {

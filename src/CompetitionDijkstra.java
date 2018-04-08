@@ -142,8 +142,8 @@ public class CompetitionDijkstra {
 					longestPath = dst;
 			}
 		}
-		return (int) (Math.ceil(longestPath*1000)/(Math.min(speedA, (Math.min(speedB, speedC)))));
-
+		int end = (int) (Math.ceil((longestPath*1000)/(Math.min(speedA, (Math.min(speedB, speedC))))));
+		return end;
 
 	}
 

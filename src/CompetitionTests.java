@@ -1,6 +1,9 @@
+import static org.junit.Assert.assertEquals;
+
 import java.io.FileNotFoundException;
 
 import org.junit.Test;
+
 
 public class CompetitionTests {
 
@@ -12,7 +15,12 @@ public class CompetitionTests {
 		
         //TODO
     }
-
+    @Test
+    public void testDijkstra()
+    {
+    	CompetitionDijkstra cd = new CompetitionDijkstra("src/input-D.txt", 50, 80, 60);
+    	assertEquals("test input-D", 38, cd.timeRequiredforCompetition());
+    }
     @Test
     public void testFWConstructor() {
         //TODO
