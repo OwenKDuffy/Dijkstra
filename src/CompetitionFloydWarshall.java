@@ -1,3 +1,5 @@
+import java.io.File;
+
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
  * city intersections. In order to win, the three contestants need all to meet at any intersection
@@ -17,23 +19,67 @@
 
 public class CompetitionFloydWarshall {
 
-    /**
+    private int speedA;
+	private int speedB;
+	private int speedC;
+	double[][] dist;
+
+	/**
      * @param filename: A filename containing the details of the city road network
      * @param sA, sB, sC: speeds for 3 contestants
      */
     CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
+    	this.speedA = sA;
+		this.speedB = sB;
+		this.speedC = sC;
+		File testFile= new File(filename);
+		if (!testFile.exists())
+		{
+			//throw new FileNotFoundException("Could not find file: " + filename);
+			return;
+		}
+		In file= new In(filename);
+		String connections=file.readAll();
+		String[] connectionsArray=connections.split("\n");
 
-        //TODO
+		int v = Integer.parseInt(connectionsArray[0]);
+		dist = new double[v][v];
+        for(int i = 2; i < connectionsArray.length; i++)
+        {
+        	String street = connectionsArray[i];
+			String[] properties=street.split(" ");
+			
+			dist[Integer.parseInt(properties[0])][Integer.parseInt(properties[1])] = Double.parseDouble(properties[2]);
+        }
+        for (int i = 0; i < v; i++)
+        {
+        	dist[i][i] = 0;
+        }
+        for(int k = 1; k < v; k++)
+        	for(int i = 1; i < v; i++)
+        		for(int j = 1; j < v; j++)
+        		{
+        			if(dist[i][j] > dist[i][k] + dist[k][j])
+        				dist[i][j] = dist[i][k] + dist[k][j];
+        		}
     }
 
 
     /**
      * @return int: minimum minutes that will pass before the three contestants can meet
      */
-    public int timeRequiredforCompetition(){
-
-        //TO DO
-        return -1;
+    public int timeRequiredforCompetition()
+    {
+    	double longestPath = Double.MIN_VALUE;
+        for(double[] a: dist)
+        {
+        	for(double d: a)
+        	{
+        		if(d > longestPath)
+        			longestPath = d;
+        	}
+        }
+        return (int) Math.ceil((longestPath*1000)/Math.min(speedA, Math.min(speedB, speedC)));
     }
 
 }
