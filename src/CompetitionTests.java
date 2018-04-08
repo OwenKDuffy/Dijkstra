@@ -11,14 +11,14 @@ public class CompetitionTests {
     public void testDijkstraConstructor() 
     {
 
-			CompetitionDijkstra cd = new CompetitionDijkstra("src/input-B.txt", 100, 75, 50);
+			CompetitionDijkstra cd = new CompetitionDijkstra("input-B.txt", 100, 75, 50);
 		
         //TODO
     }
     @Test
     public void testDijkstra()
     {
-    	CompetitionDijkstra cd = new CompetitionDijkstra("src/input-D.txt", 50, 80, 60);
+    	CompetitionDijkstra cd = new CompetitionDijkstra("input-D.txt", 50, 80, 60);
     	assertEquals("test input-D", 38, cd.timeRequiredforCompetition());
     }
     @Test
