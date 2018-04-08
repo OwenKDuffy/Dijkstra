@@ -44,6 +44,14 @@ public class CompetitionFloydWarshall {
 
 		int v = Integer.parseInt(connectionsArray[0]);
 		dist = new double[v][v];
+		//set the array values to as large as possible
+		for (int i = 0; i < dist.length; i++) 
+		{
+			for (int j = 0; j < dist[i].length; j++) 
+			{
+				dist[i][j] = Double.MAX_VALUE;
+			}
+		}
         for(int i = 2; i < connectionsArray.length; i++)
         {
         	String street = connectionsArray[i];
@@ -55,9 +63,9 @@ public class CompetitionFloydWarshall {
         {
         	dist[i][i] = 0;
         }
-        for(int k = 1; k < v; k++)
-        	for(int i = 1; i < v; i++)
-        		for(int j = 1; j < v; j++)
+        for(int k = 0; k < v; k++)
+        	for(int i = 0; i < v; i++)
+        		for(int j = 0; j < v; j++)
         		{
         			if(dist[i][j] > dist[i][k] + dist[k][j])
         				dist[i][j] = dist[i][k] + dist[k][j];
@@ -79,7 +87,8 @@ public class CompetitionFloydWarshall {
         			longestPath = d;
         	}
         }
-        return (int) Math.ceil((longestPath*1000)/Math.min(speedA, Math.min(speedB, speedC)));
+        int minSpeed = (Math.min(speedA, Math.min(speedB, speedC)));
+        return (int) Math.ceil((longestPath*1000)/minSpeed);
     }
 
 }
