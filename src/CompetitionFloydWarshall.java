@@ -79,6 +79,8 @@ public class CompetitionFloydWarshall {
     public int timeRequiredforCompetition()
     {
     	double longestPath = Double.MIN_VALUE;
+    	if (dist == null)
+    		return -1;
         for(double[] a: dist)
         {
         	for(double d: a)
