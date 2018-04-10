@@ -19,17 +19,17 @@ import java.io.File;
 
 public class CompetitionFloydWarshall {
 
-    private int speedA;
+	private int speedA;
 	private int speedB;
 	private int speedC;
 	double[][] dist;
 
 	/**
-     * @param filename: A filename containing the details of the city road network
-     * @param sA, sB, sC: speeds for 3 contestants
-     */
-    CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
-    	this.speedA = sA;
+	 * @param filename: A filename containing the details of the city road network
+	 * @param sA, sB, sC: speeds for 3 contestants
+	 */
+	CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
+		this.speedA = sA;
 		this.speedB = sB;
 		this.speedC = sC;
 		File testFile= new File(filename);
@@ -49,55 +49,61 @@ public class CompetitionFloydWarshall {
 		{
 			for (int j = 0; j < dist[i].length; j++) 
 			{
-				dist[i][j] = -1;
+				dist[i][j] = Double.MAX_VALUE;
 			}
 		}
-		
+
 		//for each edge (u, v) dist[u][v] = length of u -> v
-        for(int i = 2; i < connectionsArray.length; i++)
-        {
-        	String street = connectionsArray[i];
+		for(int i = 2; i < connectionsArray.length; i++)
+		{
+			String street = connectionsArray[i];
 			String[] properties=street.split(" ");
-			
+
 			dist[Integer.parseInt(properties[0])][Integer.parseInt(properties[1])] = Double.parseDouble(properties[2]);
-        }
-        //for each vertex i dist[i][i] = 0
-        for (int i = 0; i < v; i++)
-        {
-        	dist[i][i] = 0;
-        }
-        for(int k = 0; k < v; k++)
-        	for(int i = 0; i < v; i++)
-        		for(int j = 0; j < v; j++)
-        		{
-        			if(dist[i][j] > dist[i][k] + dist[k][j])
-        				dist[i][j] = dist[i][k] + dist[k][j];
-        		}
-    }
+		}
+		//for each vertex i dist[i][i] = 0
+		for (int i = 0; i < v; i++)
+		{
+			dist[i][i] = 0;
+		}
+		for(int k = 0; k < v; k++)
+		{
+			for(int i = 0; i < v; i++)
+			{
+				for(int j = 0; j < v; j++)
+				{
+					if(dist[i][j] > dist[i][k] + dist[k][j] || dist[i][j] < 0)
+						dist[i][j] = dist[i][k] + dist[k][j];
+				}
+			}
+		}
+	}
 
 
-    /**
-     * @return int: minimum minutes that will pass before the three contestants can meet
-     */
-    public int timeRequiredforCompetition()
-    {
-    	double longestPath = Double.MIN_VALUE;
-    	if (dist == null)
+	/**
+	 * @return int: minimum minutes that will pass before the three contestants can meet
+	 */
+	public int timeRequiredforCompetition()
+	{
+		double longestPath = Double.MIN_VALUE;
+		if (dist == null)
     		return -1;
-        for(double[] a: dist)
-        {
-        	for(double d: a)
-        	{
-        		if(d < 0)
+		for(double[] da: dist)
+		{
+			for (double d : da) 
+			{
+				if(d == Double.MAX_VALUE)
 					return -1;
-        		if(d > longestPath)
-        			longestPath = d;
-        	}
-        }
-        int minSpeed = (Math.min(speedA, Math.min(speedB, speedC)));
-        if(minSpeed < 0)
-        	return -1;
-        return (int) Math.ceil((longestPath*1000)/minSpeed);
-    }
+				if(d > longestPath)
+				{
+					longestPath = d;
+				}
+			}
+		}
+		int minSpeed = (Math.min(speedA, Math.min(speedB, speedC)));
+		if(minSpeed < 0)
+			return -1;
+		return (int) Math.ceil((longestPath*1000)/minSpeed);
 
+	}
 }

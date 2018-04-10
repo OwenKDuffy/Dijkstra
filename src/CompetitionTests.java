@@ -38,6 +38,7 @@ public class CompetitionTests {
 	@Test
 	public void testDijkstraC()
 	{
+		//input-C.txt with speed = [5,1000,67] should return -1
 		CompetitionDijkstra cd = new CompetitionDijkstra("input-C.txt", 5, 1000, 67);
 		assertEquals("test input-C", -1, cd.timeRequiredforCompetition());
 	}
@@ -49,10 +50,16 @@ public class CompetitionTests {
 	}
 	@Test
 	public void testDijkstraI()
-
 	{
 		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 4, 7, 1);
-		assertEquals("test input-I", 12000, cd.timeRequiredforCompetition());
+		assertEquals("test input-I", 1715, cd.timeRequiredforCompetition());
+	}
+	@Test
+	public void testDijkstraIpt2()
+	{
+		//input-I.txt with speed = [3233,7, 2368726] should return 1715
+		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 3233, 7, 2368726);
+		assertEquals("test input-I", 1715, cd.timeRequiredforCompetition());
 	}
 	@Test
 	public void testDijkstraK()
@@ -93,6 +100,7 @@ public class CompetitionTests {
 	@Test
 	public void testFWC()
 	{
+		//input-C.txt with speed = [5,1000,67] should return -1
 		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-C.txt", 5, 1000, 67);
 		assertEquals("test input-C", -1, cf.timeRequiredforCompetition());
 	}
@@ -104,14 +112,19 @@ public class CompetitionTests {
 	}
 	@Test
 	public void testFWI()
-
 	{
 		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-I.txt", 4, 7, 1);
-		assertEquals("test input-I", 12000, cf.timeRequiredforCompetition());
+		assertEquals("test input-I", 1715, cf.timeRequiredforCompetition());
+	}
+	@Test
+	//input-I.txt with speed = [3233,7, 2368726] should return 1715
+	public void testFWIpt2()
+	{
+		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-I.txt", 3233, 7, 2368726);
+		assertEquals("test input-I", 1715, cf.timeRequiredforCompetition());
 	}
 	@Test
 	public void testFWK()
-
 	{
 		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-K.txt", 51, 7, 2266262);
 		assertEquals("test input-K", 2286, cf.timeRequiredforCompetition());
@@ -133,6 +146,24 @@ at CompetitionDijkstra.<init>(CompetitionDijkstra.java:40)
 input-I.txt with speed = [3233,7,2368726] should return 1715
 
 input-C.txt with speed = [5,1000,67] should return -1
+
+
+dijkstra constructor
+
+symptom: java.lang.NullPointerException
+at java.io.File.<init>(File.java:277)
+at CompetitionDijkstra.<init>(CompetitionDijkstra.java:40)
+input-K.txt with speed = [51,7,2266262] should return 2286
+
+input-I.txt with speed = [3233,7,2368726] should return 1715
+
+input-B.txt with speed = [60,80,50] should return 10000
+
+FW constructor
+
+symptom: java.lang.NullPointerException
+at java.io.File.<init>(File.java:277)
+at CompetitionFloydWarshall.<init>(CompetitionFloydWarshall.java:35)
 	 */
 
 }
