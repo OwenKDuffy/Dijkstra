@@ -71,12 +71,13 @@ public class CompetitionDijkstra {
 
 		for (int source = 0; source < v ; source++) 
 		{
-			Dijkstra(source, graph, dist[source], prev[source]);
+			if(Dijkstra(source, graph, dist[source], prev[source])<0)
+				return;
 
 		}
 
 	}
-	private void Dijkstra(int source, double[][] graph, double[] dist, int[] prev)
+	private int Dijkstra(int source, double[][] graph, double[] dist, int[] prev)
 	{
 		ArrayList<Integer> queue = new ArrayList<Integer>();
 
@@ -90,7 +91,12 @@ public class CompetitionDijkstra {
 		while(!queue.isEmpty())
 		{
 			int u = minOf(queue, dist);
-
+			if(u < 0)
+			{
+				for(int i = 0; i < dist.length; i++)
+					dist[i] = -1;
+				return -1;
+			}
 			int pos = queue.indexOf(u);
 			if(pos >=0 && pos < queue.size())
 				queue.remove(pos);
@@ -109,6 +115,7 @@ public class CompetitionDijkstra {
 				}
 			}
 		}
+		return 0;
 	}
 
 
@@ -138,6 +145,8 @@ public class CompetitionDijkstra {
 		{
 			for (double d : da) 
 			{
+				if(d < 0)
+					return -1;
 				if(d > longestPath)
 				{
 					longestPath = d;
