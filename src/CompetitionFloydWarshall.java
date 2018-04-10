@@ -1,4 +1,6 @@
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
@@ -41,44 +43,47 @@ public class CompetitionFloydWarshall {
 			//throw new FileNotFoundException("Could not find file: " + filename);
 			return;
 		}
-		In file= new In(filename);
-		String connections=file.readAll();
-		String[] connectionsArray=connections.split("\n");
+		Scanner sc;
+		try {
+			sc = new Scanner(testFile);
 
-		int v = Integer.parseInt(connectionsArray[0]);
-		dist = new double[v][v];
-		//set the array values to as large as possible
-		for (int i = 0; i < dist.length; i++) 
-		{
-			for (int j = 0; j < dist[i].length; j++) 
+
+			int v = sc.nextInt();
+			int numEdges = sc.nextInt();
+			dist = new double[v][v];
+			//set the array values to as large as possible
+			for (int i = 0; i < dist.length; i++) 
 			{
-				dist[i][j] = Double.MAX_VALUE;
-			}
-		}
-
-		//for each edge (u, v) dist[u][v] = length of u -> v
-		for(int i = 2; i < connectionsArray.length; i++)
-		{
-			String street = connectionsArray[i];
-			String[] properties=street.split(" ");
-
-			dist[Integer.parseInt(properties[0])][Integer.parseInt(properties[1])] = Double.parseDouble(properties[2]);
-		}
-		//for each vertex i dist[i][i] = 0
-		for (int i = 0; i < v; i++)
-		{
-			dist[i][i] = 0;
-		}
-		for(int k = 0; k < v; k++)
-		{
-			for(int i = 0; i < v; i++)
-			{
-				for(int j = 0; j < v; j++)
+				for (int j = 0; j < dist[i].length; j++) 
 				{
-					if(dist[i][j] > dist[i][k] + dist[k][j] || dist[i][j] < 0)
-						dist[i][j] = dist[i][k] + dist[k][j];
+					dist[i][j] = Double.MAX_VALUE;
 				}
 			}
+
+			//for each edge (u, v) dist[u][v] = length of u -> v
+			while(sc.hasNextLine())
+			{
+				dist[sc.nextInt()][sc.nextInt()] = sc.nextDouble();
+			}
+			//for each vertex i dist[i][i] = 0
+			for (int i = 0; i < v; i++)
+			{
+				dist[i][i] = 0;
+			}
+			for(int k = 0; k < v; k++)
+			{
+				for(int i = 0; i < v; i++)
+				{
+					for(int j = 0; j < v; j++)
+					{
+						if(dist[i][j] > dist[i][k] + dist[k][j] || dist[i][j] < 0)
+							dist[i][j] = dist[i][k] + dist[k][j];
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -90,7 +95,7 @@ public class CompetitionFloydWarshall {
 	{
 		double longestPath = Double.MIN_VALUE;
 		if (dist == null)
-    		return -1;
+			return -1;
 		for(double[] da: dist)
 		{
 			for (double d : da) 

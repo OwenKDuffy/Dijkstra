@@ -1,5 +1,7 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 /*
@@ -45,37 +47,42 @@ public class CompetitionDijkstra {
 			//throw new FileNotFoundException("Could not find file: " + filename);
 			return;
 		}
-		In file= new In(filename);
-		String connections=file.readAll();
-		String[] connectionsArray=connections.split("\n");
+		Scanner sc;
+		try {
+			sc = new Scanner(testFile);
 
-		int v = Integer.parseInt(connectionsArray[0]);
-		graph = new double [v][v];
-		for (int i = 0; i < graph.length; i++) 
-		{
-			for (int j = 0; j < graph[i].length; j++) 
+
+
+			int v = sc.nextInt();
+			int numEdges = sc.nextInt();	
+			graph = new double [v][v];
+			for (int i = 0; i < graph.length; i++) 
 			{
-				graph[i][j] = -1;
+				for (int j = 0; j < graph[i].length; j++) 
+				{
+					graph[i][j] = -1;
+				}
 			}
-		}
-		for(int i = 2; i < connectionsArray.length; i++)
-		{
-			String street = connectionsArray[i];
-			String[] properties=street.split(" ");
 
-			graph[Integer.parseInt(properties[0])][Integer.parseInt(properties[1])] = Double.parseDouble(properties[2]);
-		}
-
-		dist = new double [v][v];
-		prev = new int [v][v];
+			while(sc.hasNextLine())
+			{
+				graph[sc.nextInt()][sc.nextInt()] = sc.nextDouble();
+			}
+			sc.close();
+			dist = new double [v][v];
+			prev = new int [v][v];
 
 
 
-		for (int source = 0; source < v ; source++) 
-		{
-			if(Dijkstra(source, graph, dist[source], prev[source])<0)
-				return;
+			for (int source = 0; source < v ; source++) 
+			{
+				if(Dijkstra(source, graph, dist[source], prev[source])<0)
+					return;
 
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
@@ -144,7 +151,7 @@ public class CompetitionDijkstra {
 	{
 		double longestPath = Double.MIN_VALUE;
 		if (dist == null)
-    		return -1;
+			return -1;
 		for(double[] da: dist)
 		{
 			for (double d : da) 
