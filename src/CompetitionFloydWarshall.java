@@ -38,11 +38,6 @@ public class CompetitionFloydWarshall {
 		this.speedB = sB;
 		this.speedC = sC;
 		File testFile= new File(filename);
-		if (!testFile.exists())
-		{
-			//throw new FileNotFoundException("Could not find file: " + filename);
-			return;
-		}
 		Scanner sc;
 		try {
 			sc = new Scanner(testFile);
@@ -61,7 +56,7 @@ public class CompetitionFloydWarshall {
 			}
 
 			//for each edge (u, v) dist[u][v] = length of u -> v
-			while(sc.hasNextLine())
+			while(sc.hasNextLine() && sc.hasNextInt())
 			{
 				dist[sc.nextInt()][sc.nextInt()] = sc.nextDouble();
 			}

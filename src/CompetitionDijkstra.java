@@ -64,7 +64,7 @@ public class CompetitionDijkstra {
 				}
 			}
 
-			while(sc.hasNextLine())
+			while(sc.hasNextLine() && sc.hasNextInt())
 			{
 				graph[sc.nextInt()][sc.nextInt()] = sc.nextDouble();
 			}

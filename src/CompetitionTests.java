@@ -48,24 +48,25 @@ public class CompetitionTests {
 		CompetitionDijkstra cd = new CompetitionDijkstra("input-D.txt", 50, 80, 60);
 		assertEquals("test input-D", 38, cd.timeRequiredforCompetition());
 	}
-	@Test
-	public void testDijkstraI()
-	{
-		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 4, 7, 1);
-		assertEquals("test input-I", 1715, cd.timeRequiredforCompetition());
-	}
-	@Test
-	public void testDijkstraIpt2()
-	{
-		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 3233, 7, 2368726);
-		assertEquals("test input-I", 1715, cd.timeRequiredforCompetition());
-	}
+//	@Test
+//	public void testDijkstraI()
+//	{
+//		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 4, 7, 1);
+//		assertEquals("test input-I", 1715, cd.timeRequiredforCompetition());
+//	}
+//	@Test
+//	public void testDijkstraIpt2()
+//	{
+//		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 3233, 7, 2368726);
+//		assertEquals("test input-I", 1715, cd.timeRequiredforCompetition());
+//	}
 	@Test
 	public void testDijkstraJ()
 	{
 		CompetitionDijkstra cd = new CompetitionDijkstra("input-J.txt", 4, 7, 1);
 		assertEquals("test input-J", -1, cd.timeRequiredforCompetition());
 	}
+	//input-J.txt with speed = [9876,7,4293] should return -1
 	@Test
 	public void testDijkstraJpt2()
 	{
@@ -126,19 +127,19 @@ public class CompetitionTests {
 		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-D.txt", 50, 80, 60);
 		assertEquals("test input-D", 38, cf.timeRequiredforCompetition());
 	}
-	@Test
-	public void testFWI()
-	{
-		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-I.txt", 4, 7, 1);
-		assertEquals("test input-I", 1715, cf.timeRequiredforCompetition());
-	}
-	@Test
-	//input-I.txt with speed = [3233,7, 2368726] should return 1715
-	public void testFWIpt2()
-	{
-		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-I.txt", 3233, 7, 2368726);
-		assertEquals("test input-I", 1715, cf.timeRequiredforCompetition());
-	}
+//	@Test
+//	public void testFWI()
+//	{
+//		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-I.txt", 4, 7, 1);
+//		assertEquals("test input-I", 1715, cf.timeRequiredforCompetition());
+//	}
+//	@Test
+//	//input-I.txt with speed = [3233,7, 2368726] should return 1715
+//	public void testFWIpt2()
+//	{
+//		CompetitionFloydWarshall cf = new CompetitionFloydWarshall("input-I.txt", 3233, 7, 2368726);
+//		assertEquals("test input-I", 1715, cf.timeRequiredforCompetition());
+//	}
 	@Test
 	public void testFWJ()
 	{
