@@ -49,9 +49,11 @@ public class CompetitionFloydWarshall {
 		{
 			for (int j = 0; j < dist[i].length; j++) 
 			{
-				dist[i][j] = Double.MAX_VALUE;
+				dist[i][j] = -1;
 			}
 		}
+		
+		//for each edge (u, v) dist[u][v] = length of u -> v
         for(int i = 2; i < connectionsArray.length; i++)
         {
         	String street = connectionsArray[i];
@@ -59,6 +61,7 @@ public class CompetitionFloydWarshall {
 			
 			dist[Integer.parseInt(properties[0])][Integer.parseInt(properties[1])] = Double.parseDouble(properties[2]);
         }
+        //for each vertex i dist[i][i] = 0
         for (int i = 0; i < v; i++)
         {
         	dist[i][i] = 0;
@@ -85,12 +88,14 @@ public class CompetitionFloydWarshall {
         {
         	for(double d: a)
         	{
+        		if(d < 0)
+					return -1;
         		if(d > longestPath)
         			longestPath = d;
         	}
         }
         int minSpeed = (Math.min(speedA, Math.min(speedB, speedC)));
-        if(minSpeed == 0)
+        if(minSpeed < 0)
         	return -1;
         return (int) Math.ceil((longestPath*1000)/minSpeed);
     }
