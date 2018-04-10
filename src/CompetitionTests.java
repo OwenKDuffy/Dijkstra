@@ -16,6 +16,12 @@ public class CompetitionTests {
         //TODO
     }
     @Test
+    public void testDijkstraB()
+    {
+    	CompetitionDijkstra cd = new CompetitionDijkstra("input-B.txt", 50, 80, 60);
+    	assertEquals("test input-B", 10000, cd.timeRequiredforCompetition());
+    }
+    @Test
     public void testDijkstraD()
     {
     	CompetitionDijkstra cd = new CompetitionDijkstra("input-D.txt", 50, 80, 60);

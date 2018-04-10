@@ -1,8 +1,6 @@
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
+
 
 /*
  * A Contest to Meet (ACM) is a reality TV contest that sets three contestants at three random
@@ -28,20 +26,11 @@ public class CompetitionDijkstra {
 	 * @param sA, sB, sC: speeds for 3 contestants
 	 */
 
-	Graph intersections;
-	int speedA, speedB, speedC;
-	DijkstraTable[] dta;
-	private class DijkstraTable
-	{
-		double[] dist;
-		double[] prev;
-		DijkstraTable(int size)
-		{
-			dist = new double[size];
-			prev = new double[size];
 
-		}
-	}
+	int speedA, speedB, speedC;
+	private double[][] graph;
+	private double[][] dist;
+	private int[][] prev;
 
 	CompetitionDijkstra (String filename, int sA, int sB, int sC) 
 	{
@@ -59,66 +48,77 @@ public class CompetitionDijkstra {
 		String[] connectionsArray=connections.split("\n");
 
 		int v = Integer.parseInt(connectionsArray[0]);
-		intersections = new Graph(v);
-
-		for (int i=2; i < connectionsArray.length; i++)
+		graph = new double [v][v];
+		for (int i = 0; i < graph.length; i++) 
+		{
+			for (int j = 0; j < graph[i].length; j++) 
+			{
+				graph[i][j] = -1;
+			}
+		}
+		for(int i = 2; i < connectionsArray.length; i++)
 		{
 			String street = connectionsArray[i];
 			String[] properties=street.split(" ");
 
-			intersections.addEdgeOneWay(Integer.parseInt(properties[0]), Integer.parseInt(properties[1]), Double.parseDouble(properties[2]));
+			graph[Integer.parseInt(properties[0])][Integer.parseInt(properties[1])] = Double.parseDouble(properties[2]);
 		}
-		dta = new DijkstraTable[v];
-		for(int i = 0; i < v; i++)
+
+		dist = new double [v][v];
+		prev = new int [v][v];
+
+
+
+		for (int source = 0; source < v ; source++) 
 		{
-			dta[i] = new DijkstraTable(v);
+			Dijkstra(source, graph, dist[source], prev[source]);
+
 		}
-		for (int i = 0; i < intersections.V; i++) 
+
+	}
+	private void Dijkstra(int source, double[][] graph, double[] dist, int[] prev)
+	{
+		ArrayList<Integer> queue = new ArrayList<Integer>();
+
+		for (int j = 0; j < dist.length; j++) 
 		{
-			int source = i;
-			ArrayList<Integer> queue = new ArrayList<Integer>();
-			//			PriorityQueue<Integer> queue = new PriorityQueue<>(v, (a, b) -> a < b);
-			double[] dist = new double[v];
-			double[] prev = new double[v];
-			for(int x = 0; x < v; x++)
+			dist[j] = Double.MAX_VALUE;
+			prev[j] = -1;				
+			queue.add(j);
+		}
+		dist[source] = 0;
+		while(!queue.isEmpty())
+		{
+			int u = minOf(queue, dist);
+
+			int pos = queue.indexOf(u);
+			if(pos >=0 && pos < queue.size())
+				queue.remove(pos);
+
+			for (int x = 0; x < dist.length ; x++) 
 			{
-				dist[x] = Double.MAX_VALUE;
-				prev[x] = -1;
-				queue.add(x);
-			}
-
-			dist[source] = 0;
-
-			while(!queue.isEmpty())
-			{
-				int u = minOf(queue, dist);
-				queue.remove(queue.indexOf(u));
-
-				ArrayList<Graph.Edge> neighbours = intersections.getNeighboursOf(u);
-
-				for(Graph.Edge e: neighbours)
+				double lengthUX = graph[u][x];
+				if(lengthUX >= 0) // if u is a neighbour of x
 				{
-					double alt = dist[u] + e.length;
-					if (alt < dist[e.destinationEdge.myIndex])
+					double alt = dist[u] + lengthUX;
+					if(alt < dist[x])
 					{
-						dist[e.destinationEdge.myIndex] = alt;
-						prev[e.destinationEdge.myIndex] = u;
+						dist[x] = alt;
+						prev[x] = u;
 					}
 				}
 			}
-			dta[i].dist = dist;
-			dta[i].prev = prev;
 		}
 	}
 
 
-	private int minOf(ArrayList<Integer> queue, double[] dist) {
+	private int minOf(ArrayList<Integer> queue, double[] lengthTo) {
 		double minDist = Double.MAX_VALUE;
 		int nearest = -1;
 		for(int i : queue)
 		{
-			double distanceTo = dist[i];
-			if(distanceTo < minDist)
+			double distanceTo = lengthTo[i];
+			if(distanceTo >=0 && distanceTo < minDist)
 			{
 				nearest = i;
 				minDist = distanceTo;
@@ -134,12 +134,14 @@ public class CompetitionDijkstra {
 	public int timeRequiredforCompetition()
 	{
 		double longestPath = Double.MIN_VALUE;
-		for(DijkstraTable dt : dta)
+		for(double[] da: dist)
 		{
-			for(double dst : dt.dist)
+			for (double d : da) 
 			{
-				if(dst > longestPath)
-					longestPath = dst;
+				if(d > longestPath)
+				{
+					longestPath = d;
+				}
 			}
 		}
 		int end = (int) (Math.ceil((longestPath*1000)/(Math.min(speedA, (Math.min(speedB, speedC))))));
