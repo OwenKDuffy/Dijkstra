@@ -150,10 +150,16 @@ public class CompetitionDijkstra {
 	public int timeRequiredforCompetition()
 	{
 		double longestPath = Double.MIN_VALUE;
-		if (dist == null)
+		if (dist == null || dist.length == 0)
+		{
 			return -1;
+		}
 		for(double[] da: dist)
 		{
+			if (da == null)
+			{
+				return -1;
+			}
 			for (double d : da) 
 			{
 				if(d < 0)
@@ -165,7 +171,7 @@ public class CompetitionDijkstra {
 			}
 		}
 		int minSpeed = (Math.min(speedA, Math.min(speedB, speedC)));
-		if(minSpeed < 0)
+		if(minSpeed < 0 || longestPath == Double.MIN_VALUE)
 			return -1;
 		return (int) Math.ceil((longestPath*1000)/minSpeed);
 

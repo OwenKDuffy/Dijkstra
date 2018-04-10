@@ -70,7 +70,7 @@ public class CompetitionTests {
 	@Test
 	public void testDijkstraJpt2()
 	{
-		CompetitionDijkstra cd = new CompetitionDijkstra("input-I.txt", 9876,7,4293);
+		CompetitionDijkstra cd = new CompetitionDijkstra("input-J.txt", 9876,7,4293);
 		assertEquals("test input-J", -1, cd.timeRequiredforCompetition());
 	}
 	@Test
