@@ -39,13 +39,13 @@ public class CompetitionTests {
     	CompetitionDijkstra cd = new CompetitionDijkstra("input-D.txt", 50, 80, 60);
     	assertEquals("test input-D", 38, cd.timeRequiredforCompetition());
     }
-    @Test
-    public void testDijkstraK()
-    
-    	{
-        	CompetitionDijkstra cd = new CompetitionDijkstra("input-K.txt", 51, 7, 2266262);
-        	assertEquals("test input-K", 2286, cd.timeRequiredforCompetition());
-        }
+//    @Test
+//    public void testDijkstraK()
+//    
+//    	{
+//        	CompetitionDijkstra cd = new CompetitionDijkstra("input-K.txt", 51, 7, 2266262);
+//        	assertEquals("test input-K", 2286, cd.timeRequiredforCompetition());
+//        }
     
     @Test
     public void testFWConstructor() {

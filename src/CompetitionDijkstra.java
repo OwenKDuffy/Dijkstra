@@ -153,8 +153,10 @@ public class CompetitionDijkstra {
 				}
 			}
 		}
-		int end = (int) (Math.ceil((longestPath*1000)/(Math.min(speedA, (Math.min(speedB, speedC))))));
-		return end;
+		int minSpeed = (Math.min(speedA, Math.min(speedB, speedC)));
+		if(minSpeed < 50 || (Math.max(speedA, Math.max(speedB, speedC)) > 100))
+			return -1;
+		return (int) Math.ceil((longestPath*1000)/minSpeed);
 
 	}
 
