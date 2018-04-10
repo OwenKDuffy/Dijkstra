@@ -34,7 +34,7 @@ public class CompetitionDijkstra {
 
 	CompetitionDijkstra (String filename, int sA, int sB, int sC) 
 	{
-		if(filename.length() == 0)
+		if(filename == null || filename.length() == 0)
 			return;
 		this.speedA = sA;
 		this.speedB = sB;

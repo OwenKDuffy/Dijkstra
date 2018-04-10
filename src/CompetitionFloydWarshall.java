@@ -28,7 +28,10 @@ public class CompetitionFloydWarshall {
 	 * @param filename: A filename containing the details of the city road network
 	 * @param sA, sB, sC: speeds for 3 contestants
 	 */
-	CompetitionFloydWarshall (String filename, int sA, int sB, int sC){
+	CompetitionFloydWarshall (String filename, int sA, int sB, int sC)
+	{
+		if(filename == null || filename.length() == 0)
+			return;
 		this.speedA = sA;
 		this.speedB = sB;
 		this.speedC = sC;
